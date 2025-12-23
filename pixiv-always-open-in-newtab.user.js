@@ -23,6 +23,7 @@
     const BUTTON_TEXT_ON = `新标签后台：${STATUS_ON}`;
     const BUTTON_TEXT_OFF = `新标签后台：${STATUS_OFF}`;
     const BUTTON_Z_INDEX = '9999';
+    const TOAST_MESSAGE_PREFIX = '新标签在后台打开 功能：';
     const TOAST_ID = 'pixivAlwaysOpenToast';
     let stayOnCurrentTab = localStorage.getItem(STORAGE_KEY) === 'true';
     let toggleButton = null;
@@ -165,7 +166,7 @@
 
         const toast = document.createElement('div');
         toast.id = TOAST_ID;
-        toast.textContent = `新标签在后台打开 功能：${stayOnCurrentTab ? STATUS_ON : STATUS_OFF}`;
+        toast.textContent = `${TOAST_MESSAGE_PREFIX}${stayOnCurrentTab ? STATUS_ON : STATUS_OFF}`;
         toast.style.position = 'fixed';
         toast.style.bottom = '16px';
         toast.style.right = '16px';
