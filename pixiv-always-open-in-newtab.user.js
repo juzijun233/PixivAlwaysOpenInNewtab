@@ -17,6 +17,9 @@
     'use strict';
 
     const STORAGE_KEY = 'pixivAlwaysOpenStayOnCurrentTab';
+    const BUTTON_TEXT_ON = '新标签后台：开';
+    const BUTTON_TEXT_OFF = '新标签后台：关';
+    const BUTTON_Z_INDEX = '9999';
     let stayOnCurrentTab = localStorage.getItem(STORAGE_KEY) === 'true';
     let toggleButton = null;
 
@@ -86,6 +89,7 @@
             try {
                 GM_openInTab(link.href, { active: false, insert: true, setParent: true });
             } catch (e) {
+                console.warn('GM_openInTab options not fully supported, falling back', e);
                 GM_openInTab(link.href, { active: false });
             }
         } else {
@@ -137,7 +141,7 @@
      */
     function updateToggleButtonText() {
         if (!toggleButton) return;
-        toggleButton.textContent = stayOnCurrentTab ? '新标签后台：开' : '新标签后台：关';
+        toggleButton.textContent = stayOnCurrentTab ? BUTTON_TEXT_ON : BUTTON_TEXT_OFF;
     }
 
     /**
@@ -151,7 +155,7 @@
         toggleButton.style.position = 'fixed';
         toggleButton.style.bottom = '16px';
         toggleButton.style.right = '16px';
-        toggleButton.style.zIndex = '9999';
+        toggleButton.style.zIndex = BUTTON_Z_INDEX;
         toggleButton.style.padding = '8px 12px';
         toggleButton.style.backgroundColor = '#0096fa';
         toggleButton.style.color = '#fff';
