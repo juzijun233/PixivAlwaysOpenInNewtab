@@ -74,7 +74,9 @@
         if (event.button !== 0) return;
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
-        const link = event.target.closest && event.target.closest('a');
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const link = target.closest('a');
         if (!link) return;
         if (!shouldOpenInNewTab(link)) return;
 
