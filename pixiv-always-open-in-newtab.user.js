@@ -9,6 +9,7 @@
 // @match        https://www.pixiv.net/*
 // @match        https://pixiv.net/*
 // @grant        GM_openInTab
+// @grant        none
 // @run-at       document-start
 // @license      MIT
 // ==/UserScript==
@@ -90,7 +91,10 @@
                 GM_openInTab(link.href, { active: false, insert: true, setParent: true });
             } catch (e) {
                 console.warn('GM_openInTab options not fully supported, falling back', e);
-                GM_openInTab(link.href, { active: false });
+                const newTab = window.open(link.href, '_blank', 'noopener,noreferrer');
+                if (newTab) {
+                    newTab.opener = null;
+                }
             }
         } else {
             const newTab = window.open(link.href, '_blank', 'noopener,noreferrer');
