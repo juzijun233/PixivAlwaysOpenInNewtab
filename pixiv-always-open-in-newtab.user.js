@@ -83,7 +83,11 @@
         event.preventDefault();
 
         if (typeof GM_openInTab === 'function') {
-            GM_openInTab(link.href, { active: false, insert: true, setParent: true });
+            try {
+                GM_openInTab(link.href, { active: false, insert: true, setParent: true });
+            } catch (e) {
+                GM_openInTab(link.href, { active: false });
+            }
         } else {
             const newTab = window.open(link.href, '_blank', 'noopener,noreferrer');
             if (newTab) {
