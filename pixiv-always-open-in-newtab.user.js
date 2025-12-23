@@ -142,9 +142,6 @@
     function createToggleButton() {
         if (!document.body) return;
         if (toggleButton && document.body.contains(toggleButton)) return;
-        if (toggleButton && !document.body.contains(toggleButton)) {
-            toggleButton = null;
-        }
 
         toggleButton = document.createElement('button');
         toggleButton.style.position = 'fixed';
