@@ -149,6 +149,12 @@
         toggleButton.textContent = stayOnCurrentTab ? BUTTON_TEXT_ON : BUTTON_TEXT_OFF;
     }
 
+    function toggleStayOnCurrentTab() {
+        stayOnCurrentTab = !stayOnCurrentTab;
+        localStorage.setItem(STORAGE_KEY, stayOnCurrentTab ? 'true' : 'false');
+        updateToggleButtonText();
+    }
+
     /**
      * Register a userscript menu command for toggling stay-on-current-tab feature
      * Does nothing if GM_registerMenuCommand is unavailable
@@ -156,8 +162,7 @@
     function registerMenuToggle() {
         if (typeof GM_registerMenuCommand !== 'function') return;
         GM_registerMenuCommand('切换新标签后台开关', () => {
-            stayOnCurrentTab = !stayOnCurrentTab;
-            localStorage.setItem(STORAGE_KEY, stayOnCurrentTab ? 'true' : 'false');
+            toggleStayOnCurrentTab();
         });
     }
 
@@ -184,9 +189,7 @@
         updateToggleButtonText();
 
         toggleButton.addEventListener('click', () => {
-            stayOnCurrentTab = !stayOnCurrentTab;
-            localStorage.setItem(STORAGE_KEY, stayOnCurrentTab ? 'true' : 'false');
-            updateToggleButtonText();
+            toggleStayOnCurrentTab();
         });
 
         document.body.appendChild(toggleButton);
