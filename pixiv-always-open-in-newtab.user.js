@@ -18,8 +18,10 @@
     'use strict';
 
     const STORAGE_KEY = 'pixivAlwaysOpenStayOnCurrentTab';
-    const BUTTON_TEXT_ON = '新标签后台：开';
-    const BUTTON_TEXT_OFF = '新标签后台：关';
+    const STATUS_ON = '开';
+    const STATUS_OFF = '关';
+    const BUTTON_TEXT_ON = `新标签后台：${STATUS_ON}`;
+    const BUTTON_TEXT_OFF = `新标签后台：${STATUS_OFF}`;
     const BUTTON_Z_INDEX = '9999';
     let stayOnCurrentTab = localStorage.getItem(STORAGE_KEY) === 'true';
     let toggleButton = null;
@@ -153,7 +155,7 @@
      * Show notification after toggling stay-on-current-tab preference
      */
     function showToggleNotification() {
-        alert(`新标签在后台打开 功能：${stayOnCurrentTab ? '开' : '关'}`);
+        alert(`新标签在后台打开 功能：${stayOnCurrentTab ? STATUS_ON : STATUS_OFF}`);
     }
 
     /**
