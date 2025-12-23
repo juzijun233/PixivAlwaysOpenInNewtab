@@ -47,6 +47,8 @@
         if (shouldOpenInNewTab(link) && link.target !== '_blank') {
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
+            // Mark as processed to avoid redundant processing
+            link.dataset.pixivNewTabProcessed = 'true';
         }
     }
 
@@ -62,6 +64,12 @@
      * Set up MutationObserver to handle dynamically added links
      */
     function setupObserver() {
+        // Wait for body to be available
+        if (!document.body) {
+            setTimeout(setupObserver, 100);
+            return;
+        }
+
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 mutation.addedNodes.forEach((node) => {
@@ -99,12 +107,10 @@
                 setupObserver();
             });
         } else {
+            // DOM is already ready
             processAllLinks();
             setupObserver();
         }
-
-        // Also process links on page load as a fallback
-        window.addEventListener('load', processAllLinks);
     }
 
     // Start the script
