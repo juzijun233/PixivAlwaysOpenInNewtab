@@ -149,10 +149,15 @@
         toggleButton.textContent = stayOnCurrentTab ? BUTTON_TEXT_ON : BUTTON_TEXT_OFF;
     }
 
+    /**
+     * Toggle stay-on-current-tab preference and persist it
+     */
     function toggleStayOnCurrentTab() {
         stayOnCurrentTab = !stayOnCurrentTab;
         localStorage.setItem(STORAGE_KEY, stayOnCurrentTab ? 'true' : 'false');
-        updateToggleButtonText();
+        if (toggleButton) {
+            updateToggleButtonText();
+        }
     }
 
     /**
