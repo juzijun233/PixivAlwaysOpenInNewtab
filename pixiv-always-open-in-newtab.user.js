@@ -25,6 +25,8 @@
     const BUTTON_Z_INDEX = '9999';
     const TOAST_MESSAGE_PREFIX = '新标签在后台打开 功能：';
     const TOAST_ID = 'pixivAlwaysOpenToast';
+    const TOAST_Z_INDEX = '10000';
+    const TOAST_DISPLAY_DURATION = 2000;
     let stayOnCurrentTab = localStorage.getItem(STORAGE_KEY) === 'true';
     let toggleButton = null;
 
@@ -176,14 +178,14 @@
         toast.style.borderRadius = '4px';
         toast.style.fontSize = '12px';
         toast.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
-        toast.style.zIndex = BUTTON_Z_INDEX;
+        toast.style.zIndex = TOAST_Z_INDEX;
         document.body.appendChild(toast);
 
         setTimeout(() => {
             if (toast.parentNode) {
                 toast.remove();
             }
-        }, 2000);
+        }, TOAST_DISPLAY_DURATION);
     }
 
     /**
