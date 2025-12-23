@@ -150,6 +150,13 @@
     }
 
     /**
+     * Show notification after toggling stay-on-current-tab preference
+     */
+    function showToggleNotification() {
+        alert(`新标签在后台打开 功能：${stayOnCurrentTab ? '开' : '关'}`);
+    }
+
+    /**
      * Toggle stay-on-current-tab preference and persist it
      */
     function toggleStayOnCurrentTab() {
@@ -158,6 +165,7 @@
         if (toggleButton) {
             updateToggleButtonText();
         }
+        showToggleNotification();
     }
 
     /**
