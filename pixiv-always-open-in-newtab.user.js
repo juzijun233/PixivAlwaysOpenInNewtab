@@ -2,7 +2,7 @@
 // @name         Pixiv Always Open in New Tab
 // @name:zh-CN   Pixiv始终在新标签页打开
 // @namespace    https://github.com/juzijun233/PixivAlwaysOpenInNewtab
-// @version      1.1.0
+// @version      1.2.0
 // @description  Always open illustrations, manga, and novels in new tabs on Pixiv
 // @description:zh-CN 在Pixiv中点击插画、漫画、小说的超链接时，始终在新标签中打开
 // @author       juzijun233
