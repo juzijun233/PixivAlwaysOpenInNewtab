@@ -9,6 +9,7 @@
 // @match        https://www.pixiv.net/*
 // @match        https://pixiv.net/*
 // @grant        GM_openInTab
+// @grant        GM_registerMenuCommand
 // @run-at       document-start
 // @license      MIT
 // ==/UserScript==
@@ -149,6 +150,28 @@
     }
 
     /**
+     * Toggle stay-on-current-tab preference and persist it
+     */
+    function toggleStayOnCurrentTab() {
+        stayOnCurrentTab = !stayOnCurrentTab;
+        localStorage.setItem(STORAGE_KEY, stayOnCurrentTab ? 'true' : 'false');
+        if (toggleButton) {
+            updateToggleButtonText();
+        }
+    }
+
+    /**
+     * Register a userscript menu command for toggling stay-on-current-tab feature
+     * Does nothing if GM_registerMenuCommand is unavailable
+     */
+    function registerMenuToggle() {
+        if (typeof GM_registerMenuCommand !== 'function') return;
+        GM_registerMenuCommand('切换新标签后台开关', () => {
+            toggleStayOnCurrentTab();
+        });
+    }
+
+    /**
      * Create toggle button for stay-on-current-tab feature
      */
     function createToggleButton() {
@@ -171,9 +194,7 @@
         updateToggleButtonText();
 
         toggleButton.addEventListener('click', () => {
-            stayOnCurrentTab = !stayOnCurrentTab;
-            localStorage.setItem(STORAGE_KEY, stayOnCurrentTab ? 'true' : 'false');
-            updateToggleButtonText();
+            toggleStayOnCurrentTab();
         });
 
         document.body.appendChild(toggleButton);
@@ -186,8 +207,9 @@
         const onReady = () => {
             processAllLinks();
             setupObserver();
-            createToggleButton();
+            // createToggleButton();
             document.addEventListener('click', handleLinkClick, true);
+            registerMenuToggle();
         };
 
         // Wait for DOM to be ready
