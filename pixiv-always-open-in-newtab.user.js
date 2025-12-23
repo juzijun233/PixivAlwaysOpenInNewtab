@@ -9,7 +9,6 @@
 // @match        https://www.pixiv.net/*
 // @match        https://pixiv.net/*
 // @grant        GM_openInTab
-// @grant        none
 // @run-at       document-start
 // @license      MIT
 // ==/UserScript==
@@ -86,21 +85,22 @@
 
         event.preventDefault();
 
+        const openWithWindow = () => {
+            const newTab = window.open(link.href, '_blank', 'noopener,noreferrer');
+            if (newTab) {
+                newTab.opener = null;
+            }
+        };
+
         if (typeof GM_openInTab === 'function') {
             try {
                 GM_openInTab(link.href, { active: false, insert: true, setParent: true });
             } catch (e) {
                 console.warn('GM_openInTab options not fully supported, falling back', e);
-                const newTab = window.open(link.href, '_blank', 'noopener,noreferrer');
-                if (newTab) {
-                    newTab.opener = null;
-                }
+                openWithWindow();
             }
         } else {
-            const newTab = window.open(link.href, '_blank', 'noopener,noreferrer');
-            if (newTab) {
-                newTab.opener = null;
-            }
+            openWithWindow();
         }
     }
 
