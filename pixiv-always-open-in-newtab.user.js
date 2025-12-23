@@ -133,20 +133,24 @@
      */
     function updateToggleButtonText() {
         if (!toggleButton) return;
-        toggleButton.textContent = stayOnCurrentTab ? '不切换新标签：开' : '不切换新标签：关';
+        toggleButton.textContent = stayOnCurrentTab ? '新标签后台：开' : '新标签后台：关';
     }
 
     /**
      * Create toggle button for stay-on-current-tab feature
      */
     function createToggleButton() {
-        if (!document.body || toggleButton) return;
+        if (!document.body) return;
+        if (toggleButton && document.body.contains(toggleButton)) return;
+        if (toggleButton && !document.body.contains(toggleButton)) {
+            toggleButton = null;
+        }
 
         toggleButton = document.createElement('button');
         toggleButton.style.position = 'fixed';
         toggleButton.style.bottom = '16px';
         toggleButton.style.right = '16px';
-        toggleButton.style.zIndex = '2147483647';
+        toggleButton.style.zIndex = '9999';
         toggleButton.style.padding = '8px 12px';
         toggleButton.style.backgroundColor = '#0096fa';
         toggleButton.style.color = '#fff';
