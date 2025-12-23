@@ -9,6 +9,7 @@
 // @match        https://www.pixiv.net/*
 // @match        https://pixiv.net/*
 // @grant        GM_openInTab
+// @grant        GM_registerMenuCommand
 // @run-at       document-start
 // @license      MIT
 // ==/UserScript==
@@ -148,6 +149,15 @@
         toggleButton.textContent = stayOnCurrentTab ? BUTTON_TEXT_ON : BUTTON_TEXT_OFF;
     }
 
+    function registerMenuToggle() {
+        if (typeof GM_registerMenuCommand !== 'function') return;
+        GM_registerMenuCommand('切换新标签后台开关', () => {
+            stayOnCurrentTab = !stayOnCurrentTab;
+            localStorage.setItem(STORAGE_KEY, stayOnCurrentTab ? 'true' : 'false');
+            updateToggleButtonText();
+        });
+    }
+
     /**
      * Create toggle button for stay-on-current-tab feature
      */
@@ -186,8 +196,9 @@
         const onReady = () => {
             processAllLinks();
             setupObserver();
-            createToggleButton();
+            // createToggleButton();
             document.addEventListener('click', handleLinkClick, true);
+            registerMenuToggle();
         };
 
         // Wait for DOM to be ready
