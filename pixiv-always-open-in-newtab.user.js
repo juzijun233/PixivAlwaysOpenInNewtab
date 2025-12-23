@@ -94,10 +94,7 @@
 
         if (typeof GM_openInTab === 'function') {
             try {
-                const tab = GM_openInTab(link.href, { active: false, insert: true, setParent: true });
-                if (!tab) {
-                    openWithWindow();
-                }
+                GM_openInTab(link.href, { active: false, insert: true, setParent: true });
             } catch (e) {
                 console.warn('GM_openInTab options not fully supported, falling back', e);
                 openWithWindow();
@@ -155,10 +152,7 @@
      * Create toggle button for stay-on-current-tab feature
      */
     function createToggleButton() {
-        if (!document.body) {
-            setTimeout(createToggleButton, 100);
-            return;
-        }
+        if (!document.body) return;
         if (toggleButton && document.body.contains(toggleButton)) return;
 
         toggleButton = document.createElement('button');
@@ -193,8 +187,7 @@
             processAllLinks();
             setupObserver();
             createToggleButton();
-            const clickTarget = document.body || document;
-            clickTarget.addEventListener('click', handleLinkClick, true);
+            document.addEventListener('click', handleLinkClick, true);
         };
 
         // Wait for DOM to be ready
