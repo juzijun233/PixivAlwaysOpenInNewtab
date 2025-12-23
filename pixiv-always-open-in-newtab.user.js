@@ -18,9 +18,15 @@
     'use strict';
 
     const STORAGE_KEY = 'pixivAlwaysOpenStayOnCurrentTab';
-    const BUTTON_TEXT_ON = '新标签后台：开';
-    const BUTTON_TEXT_OFF = '新标签后台：关';
+    const STATUS_ON = '开';
+    const STATUS_OFF = '关';
+    const BUTTON_TEXT_ON = `新标签后台：${STATUS_ON}`;
+    const BUTTON_TEXT_OFF = `新标签后台：${STATUS_OFF}`;
     const BUTTON_Z_INDEX = '9999';
+    const TOAST_MESSAGE_PREFIX = '新标签在后台打开 功能：';
+    const TOAST_ID = 'pixivAlwaysOpenToast';
+    const TOAST_Z_INDEX = '10000';
+    const TOAST_DISPLAY_DURATION = 2000;
     let stayOnCurrentTab = localStorage.getItem(STORAGE_KEY) === 'true';
     let toggleButton = null;
 
@@ -150,6 +156,39 @@
     }
 
     /**
+     * Show notification after toggling stay-on-current-tab preference
+     */
+    function showToggleNotification() {
+        if (!document.body) return;
+
+        const existingToast = document.getElementById(TOAST_ID);
+        if (existingToast) {
+            existingToast.remove();
+        }
+
+        const toast = document.createElement('div');
+        toast.id = TOAST_ID;
+        toast.textContent = `${TOAST_MESSAGE_PREFIX}${stayOnCurrentTab ? STATUS_ON : STATUS_OFF}`;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '16px';
+        toast.style.right = '16px';
+        toast.style.padding = '10px 12px';
+        toast.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        toast.style.color = '#fff';
+        toast.style.borderRadius = '4px';
+        toast.style.fontSize = '12px';
+        toast.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
+        toast.style.zIndex = TOAST_Z_INDEX;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.remove();
+            }
+        }, TOAST_DISPLAY_DURATION);
+    }
+
+    /**
      * Toggle stay-on-current-tab preference and persist it
      */
     function toggleStayOnCurrentTab() {
@@ -158,6 +197,7 @@
         if (toggleButton) {
             updateToggleButtonText();
         }
+        showToggleNotification();
     }
 
     /**
